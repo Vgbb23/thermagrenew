@@ -347,12 +347,21 @@ export async function createPixCharge(body: {
   }
 
   const detail = messageFromApiPayload(root);
+  if (res.status === 404) {
+    throw new Error(
+      detail ||
+        'Rota /api/pix/charge não encontrada (HTTP 404). Em desenvolvimento: rode `npm run dev` (Vite + proxy na porta 8787). Em produção: publique as funções em api/ na Vercel e defina FRUITFY_* nas variáveis de ambiente. Não abra só a pasta dist/ sem backend.',
+    );
+  }
+
   throw new Error(
     detail ||
       (okHttp && !payload
         ? 'Resposta OK do servidor, mas sem código PIX ou ID do pedido reconhecíveis. Atualize o front ou verifique o JSON retornado pelo servidor em /api/pix/charge.'
         : '') ||
-      `Não foi possível gerar o PIX (HTTP ${res.status}). Confira as variáveis FRUITFY_* no servidor do proxy e os logs da API.`,
+      (res.status === 500
+        ? 'Erro no servidor PIX (HTTP 500). Preencha FRUITFY_API_BASE, FRUITFY_API_TOKEN e FRUITFY_STORE_ID no .env e reinicie `npm run dev`.'
+        : `Não foi possível gerar o PIX (HTTP ${res.status}). Confira as variáveis FRUITFY_* no servidor do proxy e os logs da API.`),
   );
 }
 

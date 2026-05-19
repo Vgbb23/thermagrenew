@@ -290,7 +290,10 @@ export async function processPixCharge(rawBody: unknown): Promise<FruitfyApiResu
 
     if (!upstream.ok || resJson.success === false) {
       const status = upstream.status === 200 ? 422 : upstream.status;
-      const message = upstreamErrorMessage(upstream.status, resJson);
+      let message = upstreamErrorMessage(upstream.status, resJson);
+      if (upstream.status === 404) {
+        message = `Endpoint não encontrado na Fruitfy (${base}/api/pix/charge). Confira FRUITFY_API_BASE (ex.: https://api.fruitfy.io).`;
+      }
       return json(status, {
         success: false,
         message,
