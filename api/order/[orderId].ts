@@ -1,5 +1,5 @@
 import type {VercelRequest, VercelResponse} from '@vercel/node';
-import {processOrderLookup} from '../../server/fruitfy-handlers';
+import {processOrderLookup} from '../lib/fruitfy-handlers.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') {

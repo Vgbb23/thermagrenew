@@ -1,5 +1,5 @@
 import type {VercelRequest, VercelResponse} from '@vercel/node';
-import {processPixCharge} from '../../server/fruitfy-handlers';
+import {processPixCharge} from '../lib/fruitfy-handlers.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') {

@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-import { processOrderLookup, processPixCharge } from './fruitfy-handlers';
+import { processOrderLookup, processPixCharge } from '../api/lib/fruitfy-handlers.js';
 
 const PORT = Number(process.env.PORT || 8787);
 
